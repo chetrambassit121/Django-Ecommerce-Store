@@ -2,10 +2,10 @@ pip install coverage
 
 
 commands:
-python manage.py tests               ... basic command 
+python manage.py tests               ... basic command to run all tests files / folders  
 
-coverage run manage.py test          ... coverage command 
-coverage report                      ... gives coverage report 
+coverage run manage.py test          ... coverage command to run all tests files / folders 
+coverage report                      ... gives coverage report in terminal 
 
 coverage run --omit='*/virtual/*' manage.py test    .... runs tests but excludes our virtual folder 
 
