@@ -1,0 +1,12 @@
+pip install coverage 
+
+
+commands:
+python manage.py tests               ... basic command 
+
+coverage run manage.py test          ... coverage command 
+coverage report                      ... gives coverage report 
+
+coverage run --omit='*/virtual/*' manage.py test    .... runs tests but excludes our virtual folder 
+
+coverage html ... creates htmlcov folder, we can copy index.html path and open it on internet to view coverage report 
