@@ -68,6 +68,7 @@ TEMPLATES = [
 
                 # 'store.views.categories',
                 'store.context_processors.categories',
+                'basket.context_processors.basket',
 
             ],
         },
