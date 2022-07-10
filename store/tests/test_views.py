@@ -1,8 +1,10 @@
 from unittest import skip
+
 from django.contrib.auth.models import User
 from django.http import HttpRequest
 from django.test import Client, RequestFactory, TestCase
 from django.urls import reverse
+
 from store.models import Category, Product
 from store.views import all_products
 
@@ -28,7 +30,7 @@ class TestViewResponses(TestCase):
         """
         # response = self.c.get('/', HTTP_HOST='noaddress.com')
         # self.assertEqual(response.status_code, 400)
-        response = self.c.get('/', HTTP_HOST='yourdomain.com')
+        response = self.c.get('/')
         self.assertEqual(response.status_code, 200)
 
     def test_homepage_url(self):
