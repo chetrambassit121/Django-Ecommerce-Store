@@ -4,7 +4,6 @@ from django.urls import reverse
 
 from store.models import Category, Product
 
-
 class TestBasketView(TestCase):
     def setUp(self):
         User.objects.create(username='admin')
