@@ -7,8 +7,9 @@ Python 3.8.2 (tags/v3.8.2:7b3ab59, Feb 25 2020, 22:45:29) [MSC v.1916 32 bit (In
 Type "help", "copyright", "credits" or "license" for more information.
 (InteractiveConsole)
 >>> from django.contrib.sessions.models import Session
->>> s = Session.objects.get(pk='zkbvgrhytge2f7zscbe5s9229cl14mew')                                        
+>>> s = Session.objects.get(pk='r7u1935zxctys9y8jts1qqiqzwezj15j')                                        
 >>> s.get_decoded()                                                            
 {'_auth_user_id': '1', '_auth_user_backend': 'django.contrib.auth.backends.ModelBackend', '_auth_user_hash': '48a2a4b5e8ebe5c7aea88b3f29f5aee8027a7248479974c5ae1efb9943add030'}
 >>>
 """ the pk is session key we get from sqlite explorer django_sessions """
+6lWUhHAy3F3T2GMT40O7D8R7JdJoirOpdekSof5EYf9lCZg3uDcVsbdU7lHjIpRQ
