@@ -52,6 +52,9 @@ class Basket():
             item['total_price'] = item['price'] * item['qty']
             yield item
 
+    def get_total_price(self):
+        return sum(Decimal(item['price']) * item['qty'] for item in self.basket.values())
+
     def save(self):
         self.session.modified = True
 
