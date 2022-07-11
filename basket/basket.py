@@ -27,12 +27,16 @@ class Basket():
         else:
             self.basket[product_id] = {'price': str(product.price), 'qty': qty}
 
-        self.session.modifed = True
+        self.save()
 
     def __len__(self):
         """
         Get the basket data and count the qty of items
         """
         return sum(item['qty'] for item in self.basket.values())
+
+    def save(self):
+        self.session.modified = True
+
 
 

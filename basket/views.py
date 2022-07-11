@@ -24,4 +24,3 @@ def basket_add(request):
         return response
 
 
-
