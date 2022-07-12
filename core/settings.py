@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'store',
     'basket',
     'account',
-    'payment'
+    'payment',
+    'orders'
 ]
 
 MIDDLEWARE = [
@@ -134,6 +135,10 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
+
+# Basket session ID
+BASKET_SESSION_ID = 'basket'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
@@ -145,3 +150,12 @@ LOGIN_URL = '/account/login/'
 
 # Email setting
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+# Stripe Payment
+PUBLISHABLE_KEY = 'pk_test_51LKoAzK9hbEX1KOtVKFvweQLHfZC2PF850eqOuBNoxGfbqHjVVLoANJ6W7y4cBP3cjzJ2wRQ2mS8dWiyFneNkUP3000IFikGh6'
+SECRET_KEY = 'sk_test_51LKoAzK9hbEX1KOtYXq3k2cFnNygJMq15I9ZtILjc4UTVTvkkPZd9HaLyMo6GysfGJEM4h7bLFxwdjzjIQgFgFcn00sT22AT0m'
+STRIPE_ENDPOINT_SECRET = 'whsec_7a474bc41159d4b793a9ebab3b0abec8c67815d3c1ab072814052f3fd4fc0fed'
+# stripe listen --forward-to localhost:8000/payment/webhook/
+# .\stripe listen --forward-to localhost:8000/payment/webhook/
+

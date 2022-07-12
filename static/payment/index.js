@@ -48,8 +48,8 @@ var postCode = document.getElementById("postCode").value;
 
 
   $.ajax({
-    // type: "POST",
-    // url: 'http://127.0.0.1:8000/orders/add/',
+    type: "POST",
+    url: 'http://127.0.0.1:8000/orders/add/',
     data: {
       order_key: clientsecret,
       csrfmiddlewaretoken: CSRF_TOKEN,
