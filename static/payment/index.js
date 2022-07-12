@@ -1,7 +1,7 @@
 //'use strict';
 
 
-var stripe = Stripe('pk_test_51LKoAzK9hbEX1KOtVKFvweQLHfZC2PF850eqOuBNoxGfbqHjVVLoANJ6W7y4cBP3cjzJ2wRQ2mS8dWiyFneNkUP3000IFikGh6');
+var stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
 
 var elem = document.getElementById('submit');
 clientsecret = elem.getAttribute('data-secret');
@@ -40,11 +40,6 @@ var custName = document.getElementById("custName").value;
 var custAdd = document.getElementById("custAdd").value;
 var custAdd2 = document.getElementById("custAdd2").value;
 var postCode = document.getElementById("postCode").value;
-
-
-    
-
-
 
 
   $.ajax({
