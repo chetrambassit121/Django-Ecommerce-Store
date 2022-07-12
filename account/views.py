@@ -17,9 +17,7 @@ from .tokens import account_activation_token
 @login_required
 def dashboard(request):
     
-    return render(request,
-                  'account/user/dashboard.html',
-                  {'section': 'profile'})
+    return render(request, 'account/user/dashboard.html', {'section': 'profile'})
 
 
 @login_required
