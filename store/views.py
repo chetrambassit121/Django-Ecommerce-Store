@@ -4,8 +4,13 @@ from .models import Category, Product
 
 
 def product_all(request):
-    products = Product.objects.all()
+    products = Product.objects.prefetch_related("product_image").filter(is_active=True)
     return render(request, "store/index.html", {"products": products})
+
+
+# def product_all(request):
+#     products = Product.objects.all()
+#     return render(request, "store/index.html", {"products": products})
 
 
 # def category_list(request, category_slug=None):
