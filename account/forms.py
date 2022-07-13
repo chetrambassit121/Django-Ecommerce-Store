@@ -20,16 +20,19 @@ class UserLoginForm(AuthenticationForm):
 
 class RegistrationForm(forms.ModelForm):
 
-    user_name = forms.CharField(label='Enter Username', min_length=4, max_length=50, help_text='Required')
-    email = forms.EmailField(max_length=100, help_text='Required', error_messages={'required': 'Sorry, you will need an email'})
+    user_name = forms.CharField(
+        label='Enter Username', min_length=4, max_length=50, help_text='Required')
+    email = forms.EmailField(max_length=100, help_text='Required', error_messages={
+        'required': 'Sorry, you will need an email'})
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Repeat password', widget=forms.PasswordInput)
+    password2 = forms.CharField(
+        label='Repeat password', widget=forms.PasswordInput)
 
     class Meta:
         model = UserBase
         fields = ('user_name', 'email',)
 
-    def clean_user_name(self):
+    def clean_username(self):
         user_name = self.cleaned_data['user_name'].lower()
         r = UserBase.objects.filter(user_name=user_name)
         if r.count():
@@ -60,8 +63,9 @@ class RegistrationForm(forms.ModelForm):
         self.fields['password2'].widget.attrs.update(
             {'class': 'form-control', 'placeholder': 'Repeat Password'})
 
+
 class PwdResetForm(PasswordResetForm):
-    
+
     email = forms.EmailField(max_length=254, widget=forms.TextInput(
         attrs={'class': 'form-control mb-3', 'placeholder': 'Email', 'id': 'form-email'}))
 
