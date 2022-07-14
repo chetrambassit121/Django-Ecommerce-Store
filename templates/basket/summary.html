@@ -47,7 +47,7 @@
     </div>
     <div class="col-md-5 col-lg-4 order-md-last p-0 order-3">
       <div class="d-grid gap-2 ">
-        <a role="button" href="#" class="btn btn-success fw-bold" type="button">Checkout</a>
+        <a role="button" href="{% url 'checkout:deliverychoices' %}" class="btn btn-success fw-bold" type="button">Checkout Securely</a>
         <button class="btn btn-light" type="button">Save for later</button>
       </div>
     </div>
@@ -91,8 +91,57 @@
   </div>
 </div>
 
+
 <script>
-  // Delete Item
+  $(document).ready(function(){
+    $('.delete-button').on('click', function (e){
+    e.preventDefault();
+    var prodid = $(this).data('index');
+    $.ajax({
+      type: 'POST',
+      url: '{% url "basket:basket_delete" %}',
+      data: {
+        productid: $(this).data('index'),
+        csrfmiddlewaretoken: "{{csrf_token}}",
+        action: 'post'
+      },
+      success: function (json) {
+        $('.product-item[data-index="' + prodid + '"]').remove();
+        document.getElementById("subtotal").innerHTML = json.subtotal;
+        document.getElementById("basket-qty").innerHTML = json.qty
+      },
+      error: function (xhr, errmsg, err) {}
+      });
+    });
+  }) 
+</script>
+
+<script>
+  $(document).ready(function(){
+    $('.update-button').on('click', function (e){
+      e.preventDefault();
+      var prodid = $(this).data('index');
+      $.ajax({
+        type: 'POST',
+        url: '{% url "basket:basket_update" %}',
+        data: {
+          productid: $(this).data('index'),
+          productqty: $('#select' + prodid + ' option:selected').text(),
+          csrfmiddlewaretoken: "{{csrf_token}}",
+          action: 'post'
+        },
+        success: function (json) {
+          document.getElementById("basket-qty").innerHTML = json.qty
+          document.getElementById("subtotal").innerHTML = json.subtotal
+        },
+        error: function (xhr, errmsg, err) {}
+      });
+    });
+  }) 
+</script>
+
+{% comment %} <script>
+  
   $(document).on("click", ".delete-button", function (e) {
     e.preventDefault();
     var prodid = $(this).data("index");
@@ -123,7 +172,7 @@
     });
   });
 
-  // Update Item
+  
   $(document).on("click", ".update-button", function (e) {
     e.preventDefault();
     var prodid = $(this).data("index");
@@ -146,6 +195,6 @@
       error: function (xhr, errmsg, err) {},
     });
   });
-</script>
+</script> {% endcomment %}
 
 {% endblock %}

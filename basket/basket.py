@@ -1,5 +1,6 @@
 from decimal import Decimal
 
+from checkout.models import DeliveryOptions
 from django.conf import settings
 from store.models import Product
 
@@ -65,16 +66,27 @@ class Basket:
     def get_subtotal_price(self):
         return sum(Decimal(item["price"]) * item["qty"] for item in self.basket.values())
 
-    def get_total_price(self):
+    def get_delivery_price(self):
+        newprice = 0.00
 
+        if "purchase" in self.session:
+            newprice = DeliveryOptions.objects.get(id=self.session["purchase"]["delivery_id"]).delivery_price
+
+        return newprice
+
+    def get_total_price(self):
+        newprice = 0.00
         subtotal = sum(Decimal(item["price"]) * item["qty"] for item in self.basket.values())
 
-        if subtotal == 0:
-            shipping = Decimal(0.00)
-        else:
-            shipping = Decimal(11.50)
+        if "purchase" in self.session:
+            newprice = DeliveryOptions.objects.get(id=self.session["purchase"]["delivery_id"]).delivery_price
 
-        total = subtotal + Decimal(shipping)
+        total = subtotal + Decimal(newprice)
+        return total
+
+    def basket_update_delivery(self, deliveryprice=0):
+        subtotal = sum(Decimal(item["price"]) * item["qty"] for item in self.basket.values())
+        total = subtotal + Decimal(deliveryprice)
         return total
 
     def delete(self, product):
@@ -90,37 +102,9 @@ class Basket:
     def clear(self):
         # Remove basket from session
         del self.session[settings.BASKET_SESSION_ID]
+        del self.session["address"]
+        del self.session["purchase"]
         self.save()
 
     def save(self):
         self.session.modified = True
-
-
-"""
-Code in this file has been inspried/reworked from other known works. Plese ensure that
-the License below is included in any of your work that is directly copied from
-this source file.
-
-
-MIT License
-
-Copyright (c) 2019 Packt
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-"""
