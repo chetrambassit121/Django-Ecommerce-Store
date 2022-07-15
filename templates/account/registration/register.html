@@ -3,7 +3,7 @@
 {% block sub_content %}
 
 {% comment %} <form class="account-form" action="." method="post"> {% endcomment %}
-<form class="account-form" method="POST">
+<form class="account-form" action="." method="POST">
   {% csrf_token %}
   <h3 class="mb-2">Create an account</h3>
   <p class="mb-4">It's free and only takes a minute.</p>
