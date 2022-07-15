@@ -168,8 +168,8 @@ def account_register(request):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.email = RegistrationForm.cleaned_data["email"]
-            user.set_password(RegistrationForm.cleaned_data["password"])
+            # user.email = RegistrationForm.cleaned_data["email"]
+            # user.set_password(RegistrationForm.cleaned_data["password"])
             user.is_active = False
             user.save()
             current_site = get_current_site(request)
