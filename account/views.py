@@ -101,8 +101,8 @@ def delete_user(request):
 def account_register(request):
     if request.method == 'POST':
         registerForm = RegistrationForm(request.POST)
-        if form.is_valid():
-            user = form.save(commit=False)
+        if registerForm.is_valid():
+            user = registerForm.save(commit=False)
             user.is_active = False
             user.save()
             current_site = get_current_site(request)
@@ -116,7 +116,7 @@ def account_register(request):
                     'token': account_activation_token.make_token(user),
                 }
             )
-            to_email = form.cleaned_data.get('email')
+            to_email = registerForm.cleaned_data.get('email')
             email = mail.EmailMessage(mail_subject, message, to=[to_email])
             email.send()
             return render(request, "account/registration/register_email_confirm.html", {"form": registerForm})
