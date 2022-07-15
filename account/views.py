@@ -121,7 +121,7 @@ def account_register(request):
             email.send()
             return render(request, "account/registration/register_email_confirm.html", {"form": registerForm})
     else:
-        form = RegistrationForm()
+        registerForm = RegistrationForm()
     return render(request, "account/registration/register.html", {"form": registerForm})
 
 
