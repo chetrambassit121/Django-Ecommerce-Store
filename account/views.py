@@ -98,31 +98,31 @@ def delete_user(request):
 #     return render(request, "account/registration/register.html", {"form": registerForm})
 
 
-def account_register(request):
-    if request.method == 'POST':
-        registerForm = RegistrationForm(request.POST)
-        if registerForm.is_valid():
-            user = registerForm.save(commit=False)
-            user.is_active = False
-            user.save()
-            current_site = get_current_site(request)
-            mail_subject = 'Activate your blog account.'
-            message = render_to_string(
-                "account/registration/account_activation_email.html",
-                {
-                    'user': user,
-                    'domain': current_site.domain,
-                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                    'token': account_activation_token.make_token(user),
-                }
-            )
-            to_email = registerForm.cleaned_data.get('email')
-            email = mail.EmailMessage(mail_subject, message, to=[to_email])
-            email.send()
-            return render(request, "account/registration/register_email_confirm.html")
-    else:
-        registerForm = RegistrationForm()
-    return render(request, "account/registration/register.html", {"form": registerForm})
+# def account_register(request):
+#     if request.method == 'POST':
+#         registerForm = RegistrationForm(request.POST)
+#         if registerForm.is_valid():
+#             user = registerForm.save(commit=False)
+#             user.is_active = False
+#             user.save()
+#             current_site = get_current_site(request)
+#             mail_subject = 'Activate your blog account.'
+#             message = render_to_string(
+#                 "account/registration/account_activation_email.html",
+#                 {
+#                     'user': user,
+#                     'domain': current_site.domain,
+#                     'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+#                     'token': account_activation_token.make_token(user),
+#                 }
+#             )
+#             to_email = registerForm.cleaned_data.get('email')
+#             email = mail.EmailMessage(mail_subject, message, to=[to_email])
+#             email.send()
+#             return render(request, "account/registration/register_email_confirm.html")
+#     else:
+#         registerForm = RegistrationForm()
+#     return render(request, "account/registration/register.html", {"form": registerForm})
 
 
 
@@ -160,37 +160,37 @@ def account_register(request):
 #     return render(request, "account/registration/register.html", {"form": registerForm})
 
 
-# def account_register(request):
-#     if request.user.is_authenticated:
-#         return redirect("account:dashboard")
+def account_register(request):
+    if request.user.is_authenticated:
+        return redirect("account:dashboard")
 
-#     if request.method == 'POST':
-#         form = RegistrationForm(request.POST)
-#         if form.is_valid():
-#             user = form.save(commit=False)
-#             user.email = RegistrationForm.cleaned_data["email"]
-#             user.set_password(RegistrationForm.cleaned_data["password"])
-#             user.is_active = False
-#             user.save()
-#             current_site = get_current_site(request)
-#             mail_subject = 'Activate your blog account.'
-#             message = render_to_string(
-#                 "account/registration/account_activation_email.html",
-#                 {
-#                     'user': user,
-#                     'domain': current_site.domain,
-#                     'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-#                     'token': account_activation_token.make_token(user),
-#                 }
-#             )
-#             # to_email = form.cleaned_data.get('email')
-#             email = mail.EmailMessage(mail_subject, message, to=[user.email])
-#             email.send()
-#             # user.email_user(subject=subject, message=message)
-#             return render(request, "account/registration/register_email_confirm.html")
-#     else:
-#         form = RegistrationForm()
-#     return render(request, "account/registration/register.html", {'form': form})
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.email = RegistrationForm.cleaned_data["email"]
+            user.set_password(RegistrationForm.cleaned_data["password"])
+            user.is_active = False
+            user.save()
+            current_site = get_current_site(request)
+            mail_subject = 'Activate your blog account.'
+            message = render_to_string(
+                "account/registration/account_activation_email.html",
+                {
+                    'user': user,
+                    'domain': current_site.domain,
+                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                    'token': account_activation_token.make_token(user),
+                }
+            )
+            to_email = form.cleaned_data.get('email')
+            email = mail.EmailMessage(mail_subject, message, to=[to_email])
+            email.send()
+            # user.email_user(subject=subject, message=message)
+            return render(request, "account/registration/register_email_confirm.html")
+    else:
+        form = RegistrationForm()
+    return render(request, "account/registration/register.html", {'form': form})
 
 
 def account_activate(request, uidb64, token):
