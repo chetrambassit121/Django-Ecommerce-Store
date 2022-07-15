@@ -161,8 +161,8 @@ def delete_user(request):
 
 
 def account_register(request):
-    if request.user.is_authenticated:
-        return redirect("account:dashboard")
+    # if request.user.is_authenticated:
+    #     return redirect("account:dashboard")
 
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
