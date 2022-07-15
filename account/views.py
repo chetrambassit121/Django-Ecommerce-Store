@@ -119,7 +119,7 @@ def account_register(request):
             to_email = registerForm.cleaned_data.get('email')
             email = mail.EmailMessage(mail_subject, message, to=[to_email])
             email.send()
-            return render(request, "account/registration/register_email_confirm.html", {"form": registerForm})
+            return render(request, "account/registration/register_email_confirm.html")
     else:
         registerForm = RegistrationForm()
     return render(request, "account/registration/register.html", {"form": registerForm})
