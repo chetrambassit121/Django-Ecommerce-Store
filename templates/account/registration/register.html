@@ -2,7 +2,8 @@
 {% block title %}Register Account{% endblock %}
 {% block sub_content %}
 
-<form class="account-form" action="." method="post">
+{% comment %} <form class="account-form" action="." method="post"> {% endcomment %}
+<form class="account-form" method="POST">
   {% csrf_token %}
   <h3 class="mb-2">Create an account</h3>
   <p class="mb-4">It's free and only takes a minute.</p>

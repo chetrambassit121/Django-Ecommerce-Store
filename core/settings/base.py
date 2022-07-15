@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+import dj_database_url 
+import django_on_heroku
+from decouple import config 
+load_dotenv()    
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,12 +26,22 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-i71_c+y%p%(+tc8zh61he$%gyz3qyzzh4e(s7)9rssd8es72xs"
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG')
 
-ALLOWED_HOSTS = ["yourdomain.com", "127.0.0.1", "localhost"]
+ALLOWED_HOSTS = config("ALLOWED_HOSTS")
+
+# HTTPS settings
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+# SECURE_SSL_REDIRECT = True
+
+# HSTS settings
+SECURE_HSTS_SECONDS = 31536000 # 1 year
+SECURE_HSTS_PRELOAD = True
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
 
 # Application definition
@@ -55,6 +70,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = "core.urls"
@@ -92,6 +109,9 @@ DATABASES = {
 }
 
 
+db_from_env = dj_database_url.config(conn_max_age=500)            # added ... required for the dj_databse_url module
+DATABASES['default'].update(db_from_env)
+
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
@@ -127,8 +147,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = "static/"
-
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')                                
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' 
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
@@ -147,19 +169,23 @@ LOGIN_REDIRECT_URL = "/account/dashboard"
 LOGIN_URL = "/account/login/"
 
 # Email setting
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+# # EMAIL_BACKEND=str(os.getenv('EMAIL_BACKEND'))
+# EMAIL_USE_TLS=str(os.getenv('EMAIL_USE_TLS'))
+# EMAIL_HOST=str(os.getenv('EMAIL_HOST'))
+# EMAIL_HOST_USER=str(os.getenv('EMAIL_HOST_USER'))
+# DEFAULT_FROM_EMAIL=str(os.getenv('DEFAULT_FROM_EMAIL'))
+# EMAIL_HOST_PASSWORD=str(os.getenv('EMAIL_HOST_PASSWORD'))
+# EMAIL_PORT=str(os.getenv('EMAIL_PORT'))
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' 
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS')
+EMAIL_PORT = config('EMAIL_PORT')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+# DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
 
-# REMOVED
-# # Stripe Payment
-# os.environ.setdefault(
-#     "STRIPE_PUBLISHABLE_KEY",
-#     "pk_test_51LKoAzK9hbEX1KOtVKFvweQLHfZC2PF850eqOuBNoxGfbqHjVVLoANJ6W7y4cBP3cjzJ2wRQ2mS8dWiyFneNkUP3000IFikGh6",
-# )
-# # PUBLISHABLE_KEY = 'pk_test_51LKoAzK9hbEX1KOtVKFvweQLHfZC2PF850eqOuBNoxGfbqHjVVLoANJ6W7y4cBP3cjzJ2wRQ2mS8dWiyFneNkUP3000IFikGh6'
-# STRIPE_SECRET_KEY = (
-#     "sk_test_51LKoAzK9hbEX1KOtYXq3k2cFnNygJMq15I9ZtILjc4UTVTvkkPZd9HaLyMo6GysfGJEM4h7bLFxwdjzjIQgFgFcn00sT22AT0m"
-# )
-# STRIPE_ENDPOINT_SECRET = "whsec_7a474bc41159d4b793a9ebab3b0abec8c67815d3c1ab072814052f3fd4fc0fed"
-# stripe listen --forward-to localhost:8000/payment/webhook/
-# .\stripe listen --forward-to localhost:8000/payment/webhook/
+django_on_heroku.settings(locals())
+

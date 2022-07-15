@@ -8,6 +8,8 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.core import mail
+
 from orders.models import Order
 from orders.views import user_orders
 from store.models import Product
@@ -92,6 +94,36 @@ def account_register(request):
     else:
         registerForm = RegistrationForm()
     return render(request, "account/registration/register.html", {"form": registerForm})
+
+
+# def account_register(request):
+#     if request.method == 'POST':
+#         form = RegistrationForm(request.POST)
+#         if form.is_valid():
+#             user = form.save(commit=False)
+#             # user.email = RegistrationForm.cleaned_data["email"]
+#             # user.set_password(RegistrationForm.cleaned_data["password"])
+#             user.is_active = False
+#             user.save()
+#             current_site = get_current_site(request)
+#             mail_subject = 'Activate your blog account.'
+#             message = render_to_string(
+#                 "account/registration/account_activation_email.html",
+#                 {
+#                     'user': user,
+#                     'domain': current_site.domain,
+#                     'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+#                     'token': account_activation_token.make_token(user),
+#                 }
+#             )
+#             to_email = form.cleaned_data.get('email')
+#             email = mail.EmailMessage(mail_subject, message, to=[to_email])
+#             email.send()
+#             # user.email_user(subject=subject, message=message)
+#             return render(request, "account/registration/register_email_confirm.html")
+#     else:
+#         form = RegistrationForm()
+#     return render(request, "account/registration/register.html", {'form': form})
 
 
 def account_activate(request, uidb64, token):

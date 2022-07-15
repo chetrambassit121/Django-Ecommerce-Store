@@ -32,7 +32,7 @@ def BasketView(request):
     total = int(total)
 
     stripe.api_key = settings.STRIPE_SECRET_KEY
-    # stripe.api_key = 'sk_test_51LKoAzK9hbEX1KOtYXq3k2cFnNygJMq15I9ZtILjc4UTVTvkkPZd9HaLyMo6GysfGJEM4h7bLFxwdjzjIQgFgFcn00sT22AT0m'
+   
     intent = stripe.PaymentIntent.create(
         amount=total,
         currency='gbp',
@@ -42,10 +42,7 @@ def BasketView(request):
     return render(request, 'payment/payment_form.html', {'client_secret': intent.client_secret, 
                                                         'STRIPE_PUBLISHABLE_KEY': os.environ.get('STRIPE_PUBLISHABLE_KEY')})
 
-    # return render(request, 'payment/payment_form.html', {'client_secret': intent.client_secret, 
-    #                                                     'STRIPE_PUBLISHABLE_KEY': 'pk_test_51LKoAzK9hbEX1KOtVKFvweQLHfZC2PF850eqOuBNoxGfbqHjVVLoANJ6W7y4cBP3cjzJ2wRQ2mS8dWiyFneNkUP3000IFikGh6'})
-
-
+    
 @csrf_exempt
 def stripe_webhook(request):
     payload = request.body
