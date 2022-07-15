@@ -2,21 +2,21 @@
 {% block title %}Register Account{% endblock %}
 {% block sub_content %}
 
-{% comment %} <form class="account-form" action="." method="post"> {% endcomment %}
-<form class="account-form" action="." method="POST">
+<form class="account-form" action="." method="post">
+{% comment %} <form method="POST" class="account-form"> {% endcomment %}
   {% csrf_token %}
   <h3 class="mb-2">Create an account</h3>
   <p class="mb-4">It's free and only takes a minute.</p>
 
   {% if form.errors %}
-  <p>Please correct the following errors:</p>
-  {% for field in form %}
-  {% if field.errors %}
-  <div class="alert alert-primary" role="alert">
-    {{ field.label }}: {{ field.errors|striptags }}
-  </div>
-  {% endif %}
-  {% endfor %}
+    <p>Please correct the following errors:</p>
+    {% for field in form %}
+      {% if field.errors %}
+      <div class="alert alert-primary" role="alert">
+        {{ field.label }}: {{ field.errors|striptags }}
+      </div>
+      {% endif %}
+    {% endfor %}
   {% endif %}
 
   <label>{{ form.user_name.label }}<span class="text-muted small">
