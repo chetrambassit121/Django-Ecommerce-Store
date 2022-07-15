@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "orders",
     "mptt",
     "checkout",
+    "whitenoise.runserver_nostatic",
 ]
 
 MIDDLEWARE = [
