@@ -29,9 +29,15 @@
             <div class="card border-0">
               {% for image in product.product_image.all %}
               {% if image.is_feature %}
-              <img class="img-fluid" alt="Responsive image" src="{{ image.image.url }}" alt="{{ image.image.alt_text }}">
+              <img class="img-fluid" alt="Responsive image" src="{{ image.image.url }}" alt="{% static 'sun.jpg' %}">
+              {% else %}
+                <img class="img-fluid" alt="Responsive image" src="{% static 'resume.png' %}">
               {% endif %}
+              
               {% endfor %}
+              {% comment %} {% if image.is_feature == null %}
+              <img class="img-fluid" alt="Responsive image" src="{% static 'sun.jpg' %}">
+              {% endif %} {% endcomment %}
               <div class="card-body px-0">
                 <p class="card-text">
                   <a class="text-dark text-decoration-none"
