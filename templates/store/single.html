@@ -47,10 +47,10 @@
   
                   {% for image in product.product_image.all %}
                   {% if image.is_feature %}
-                  <img class="img-fluid mx-auto d-block" width="200px" alt="Responsive image" src="{{ image.image.url }}"
+                  <img class="img-fluid mx-auto d-block" width="300px" alt="Responsive image" src="{% static 'resume.png' %}"
                     alt="{{ image.image.alt_text }}">
                   {% else %}
-                  <img class="img-fluid d-block-inline pt-3" width="100px" alt="Responsive image"
+                  <img class="img-fluid d-block-inline pt-3" width="350px" alt="Responsive image"
                     src="{{ image.image.url }}" alt="{{ image.image.alt_text }}">
                   {% endif %}
                   {% endfor %}

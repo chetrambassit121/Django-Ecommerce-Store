@@ -29,7 +29,7 @@
             <div class="card border-0">
               {% for image in product.product_image.all %}
               {% if image.is_feature %}
-              <img class="img-fluid" alt="Responsive image" src="{{ image.image.url }}" alt="{% static 'sun.jpg' %}">
+              <img class="img-fluid" alt="Responsive image" src="{{ image.image.url }}">
               {% else %}
                 <img class="img-fluid" alt="Responsive image" src="{% static 'resume.png' %}">
               {% endif %}
