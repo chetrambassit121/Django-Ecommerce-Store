@@ -11,14 +11,14 @@ from .models import Address, Customer
 class UserLoginForm(AuthenticationForm):
 
     username = forms.CharField(
-        widget=forms.TextInput(attrs={"class": "form-control mb-3", "placeholder": "Email", "value": "user@user.com", "id": "login-username"})
+        widget=forms.TextInput(attrs={"class": "form-control mb-3", "value": "chetrambassit121@gmail.com", "id": "login-username"})
     )
     password = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
                 "class": "form-control",
-                "placeholder": "Password",
-                "value":"password123",
+                # "placeholder": "Password",
+                "value":"kitty121",
                 "id": "login-pwd",
             }
         )
